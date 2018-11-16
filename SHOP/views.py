@@ -8,6 +8,8 @@ class Main(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(Main, self).get_context_data(**kwargs)
+        products = Products.objects.all().select_related().order_by('-price')[:15]
+        context['products'] = products
         return context
 
 

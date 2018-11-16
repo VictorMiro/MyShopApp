@@ -18,34 +18,34 @@
                 <ul class="navbar-nav mr-auto">
                       <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Laptops
+                      Gadgets
                         </a>
+                          {% for gadget in gadget_type %}
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="#">New models</a>
-                      <a class="dropdown-item" href="#">Old models</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Second-hand models</a>
+                      <a class="dropdown-item" href="{% url 'gadget_type' gadget.id %}">{{ gadget.name }}</a>
+                      <a class="dropdown-item" href="{% url 'gadget_type' gadget.id %}">{{ gadget.name }}</a>
+                      {% endfor %}
                   </div>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Phones
+                      State
                     </a>
+                {% for type in model_type %}
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="#">New models</a>
+                      <a class="dropdown-item" href="{% url 'model_type' type.id %}">{{ type.name}}</a>
                       <a class="dropdown-item" href="#">Old models</a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="#">Second-hand models</a>
                     </div>
-                    <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Trademarks of our gadgets
+                {% endfor %}
+
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="#">Apple</a>
-                      <a class="dropdown-item" href="#">Samsung</a>
-                        <a class="dropdown-item" href="#">Huawei</a>
-                         <a class="dropdown-item" href="#">Lenovo</a>
-                        <a class="dropdown-item" href="#">ASUS</a>
+                    {% for mark in trade_marks %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'trade_mark' mark.id %}">{{ mark.name }}</a>
+                      </li>
+                    {% endfor %}
                     </div>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
@@ -55,12 +55,48 @@
               </div>
             </nav>
         </div>
-        <div class="row">
+       <div class="col-md-12">
+       <div class="row">
 
-</table>
 
+       {% for type in model_type %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'model_type' type.id %}">{{ type.name }}</a>
+                      </li>
+                    {% endfor %}
+       {% for gadget in gadget_type %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'gadget_type' gadget.id %}">{{ gadget.name }}</a>
+                      </li>
+                    {% endfor %}
+
+       <div class="row">
+    {% for product in products %}
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+              <img src="/media/{{ product.image }}" style="max-width: 200px;">
+              <div class="caption">
+                <h3>{{ product.name }}</h3>
+                <p>
+                    {{ product.trade_mark }}
+                    <br>
+                    {{ product.type }}
+                    {{ product.model_type }}
+
+                    <br>
+                    <b>₴{{ product.price }}</b>
+                </p>
+
+              </div>
+            </div>
         </div>
+    {% endfor %}
 
 </div>
+            {% block content %}
+
+
+            {% endblock %}
+         </div>
     </body>
 </html>
