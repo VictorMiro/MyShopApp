@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, FormView
 from SHOP.models import Products, TradeMark, ModelType, GadgetType
+from SHOP.forms import RegisterForm
 
 
 class Main(TemplateView):
@@ -41,3 +42,13 @@ class GadgetTypeView(ListView):
         gadget_type = get_object_or_404(GadgetType, id=self.kwargs['gadget_type_id'])
         queryset = self.model.objects.filter(gadget_type=gadget_type)
         return queryset
+
+
+class Register(FormView):
+    template_name = 'auth/registration.html'
+    form_class = RegisterForm
+    success_url = '/'
+
+    def form_valid(self, form):
+        form.save()
+        return super(Register, self).form_valid(form)

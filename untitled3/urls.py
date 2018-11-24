@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
-from SHOP.views import Main, TradeMarkView, TypeModelView, GadgetTypeView
+from SHOP.views import Main, TradeMarkView, TypeModelView, GadgetTypeView, Register
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -26,7 +26,9 @@ urlpatterns = [
     path('', Main.as_view(), name='main'),
     path('trade_mark/<int:trade_mark_id>/', TradeMarkView.as_view(), name='trade_mark'),
     path('model_type/<int:model_type_id>/', TypeModelView.as_view(), name='model_type'),
-    path('gadget_type/<int:gadget_type_id>/', GadgetTypeView.as_view(), name='gadget_type')
+    path('gadget_type/<int:gadget_type_id>/', GadgetTypeView.as_view(), name='gadget_type'),
+    path('registration/', Register.as_view(), name='registration'),
+    path('accounts/', include('django.contrib.auth.urls')),
 
 
 ]
@@ -38,4 +40,5 @@ if settings.DEBUG:
     ] + urlpatterns
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
