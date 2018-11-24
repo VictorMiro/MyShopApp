@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
-from SHOP.views import Main, TradeMarkView, TypeModelView, GadgetTypeView, Register
+from SHOP.views import Main, TradeMarkView, TypeModelView, GadgetTypeView, Register, ThankYouView, CheckoutView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -29,6 +29,8 @@ urlpatterns = [
     path('gadget_type/<int:gadget_type_id>/', GadgetTypeView.as_view(), name='gadget_type'),
     path('registration/', Register.as_view(), name='registration'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('checkout/<int:product_id>/', CheckoutView.as_view(), name='checkout'),
+    path('thanks/', ThankYouView.as_view(), name='thank_you')
 
 
 ]

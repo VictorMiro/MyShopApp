@@ -1,4 +1,5 @@
 from SHOP.models import TradeMark, ModelType, GadgetType
+from django.conf import settings
 
 
 def trade_marks(request):
@@ -11,3 +12,7 @@ def model_type(request):
 
 def gadget_type(request):
     return {'gadget_type': GadgetType.objects.all()}
+
+
+def stripe_pk_key(request):
+    return {'stripe_pk_key': settings.STRIPE_PUBLIC_KEY}

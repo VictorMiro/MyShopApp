@@ -1,7 +1,10 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, FormView
 from SHOP.models import Products, TradeMark, ModelType, GadgetType
 from SHOP.forms import RegisterForm
+from django.urls import reverse
+from django.views import View
+from django.conf import settings
 
 
 class Main(TemplateView):
@@ -52,3 +55,23 @@ class Register(FormView):
     def form_valid(self, form):
         form.save()
         return super(Register, self).form_valid(form)
+
+
+class CheckoutView(View):
+    def post(self, request, *args, **kwargs):
+        import stripe
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        product = Products.objects.get(id=kwargs['product_id'])
+        stripe.Charge.create(
+            amount=int(product.price_for_stripe),
+            currency="usd",
+            source=request.POST['stripeToken'],  # obtained with Stripe.js
+            description=""
+            )
+        product.count -= 1
+        product.save()
+        return redirect(reverse('thank_you'))
+
+
+class ThankYouView(TemplateView):
+    template_name = 'thank_you.html'

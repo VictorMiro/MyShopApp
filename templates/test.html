@@ -10,7 +10,9 @@
 <body>
         <div class="container-fluid">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-              <a class="navbar-brand" >MiKo SHOP</a>
+              <a class="navbar-brand" href="/"
+              >MiKo SHOP
+              </a>
 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
@@ -83,6 +85,16 @@
                     <b>₴{{ product.price }}</b>
                 </p>
 
+                  <form method="post" action="{% url 'checkout' product.id %}">
+            {% csrf_token %}
+            <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    data-key="{{ stripe_pk_key }}"
+                    data-amount="{{ product.price_for_stripe }}"
+                    data-name="MIKO SHOP"
+                    data-description="{{ product.name }}"
+                    data-currency="usd">
+            </script>
+        </form>
               </div>
             </div>
         </div>
