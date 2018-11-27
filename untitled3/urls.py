@@ -19,6 +19,25 @@ from django.conf.urls import url
 from SHOP.views import Main, TradeMarkView, TypeModelView, GadgetTypeView, Register, ThankYouView, CheckoutView
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework import routers, serializers, viewsets
+from django.contrib.auth.models import User
+from SHOP import views
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ('url', 'username', 'email', 'is_staff')
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'groups', views.GroupViewSet)
 
 
 urlpatterns = [
@@ -30,7 +49,10 @@ urlpatterns = [
     path('registration/', Register.as_view(), name='registration'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('checkout/<int:product_id>/', CheckoutView.as_view(), name='checkout'),
-    path('thanks/', ThankYouView.as_view(), name='thank_you')
+    path('thanks/', ThankYouView.as_view(), name='thank_you'),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^', include(router.urls))
+
 
 
 ]

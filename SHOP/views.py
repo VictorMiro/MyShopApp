@@ -5,6 +5,9 @@ from SHOP.forms import RegisterForm
 from django.urls import reverse
 from django.views import View
 from django.conf import settings
+from rest_framework import viewsets
+from django.contrib.auth.models import User, Group
+from SHOP.serializers import UserSerializer, GroupSerializer
 
 
 class Main(TemplateView):
@@ -75,3 +78,19 @@ class CheckoutView(View):
 
 class ThankYouView(TemplateView):
     template_name = 'thank_you.html'
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer

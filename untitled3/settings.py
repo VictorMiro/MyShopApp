@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'SHOP.apps.ShopConfig',
     'bootstrapform',
     'debug_toolbar',
+    'rest_framework'
 
 ]
 
@@ -60,6 +61,10 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'SHOP.email_auth_backend.AuthByEmail'
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
 ROOT_URLCONF = 'untitled3.urls'
 
 TEMPLATES = [
